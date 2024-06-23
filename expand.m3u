@@ -1,0 +1,3 @@
+#EXTM3U
+#EXTINF:0 type="playlist",expand_playlist
+http://localhost:8000/expand_playlist
