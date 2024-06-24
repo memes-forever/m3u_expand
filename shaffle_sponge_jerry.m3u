@@ -1,0 +1,3 @@
+#EXTM3U
+#EXTINF:0 type="playlist",shaffle_sponge_jerry
+http://localhost:8000/shaffle?search=sponge|jerry

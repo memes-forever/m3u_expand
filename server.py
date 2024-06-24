@@ -1,5 +1,5 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
-from main import expand_playlist, shaffle
+from lib import expand_playlist, shaffle, shaffle_by_priority
 
 url_main = 'http://localhost:8090/playlistall/all.m3u'
 
@@ -12,7 +12,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'audio/x-mpegurl; charset=utf-8')
             self.end_headers()
-            self.wfile.write(new_list.encode('utf-8'))
+            self.wfile.write(str(new_list).encode('utf-8'))
 
         elif self.path == '/shaffle':
             new_list = expand_playlist(url_main)
@@ -21,7 +21,26 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'audio/x-mpegurl; charset=utf-8')
             self.end_headers()
-            self.wfile.write(new_random_list.encode('utf-8'))
+            self.wfile.write(str(new_random_list).encode('utf-8'))
+
+        elif '/shaffle?search=' in self.path:
+            search = self.path.replace('/shaffle?search=', '')
+            new_list = expand_playlist(url_main, search=search)
+            new_random_list = shaffle(new_list)
+
+            self.send_response(200)
+            self.send_header('Content-type', 'audio/x-mpegurl; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(str(new_random_list).encode('utf-8'))
+
+        elif '/shaffle_by_priority' in self.path:
+            new_list = expand_playlist(url_main)
+            new_random_list = shaffle_by_priority(new_list)
+
+            self.send_response(200)
+            self.send_header('Content-type', 'audio/x-mpegurl; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(str(new_random_list).encode('utf-8'))
 
         else:
             self.send_response(404)
