@@ -24,7 +24,7 @@ class MyHandler(SimpleHTTPRequestHandler):
             self.wfile.write(str(new_random_list).encode('utf-8'))
 
         elif '/shaffle?search=' in self.path:
-            search = self.path.replace('/shaffle?search=', '')
+            search = self.path.replace('/shaffle?search=', '').replace('%7C', '|')
             new_list = expand_playlist(url_main, search=search)
             new_random_list = shaffle(new_list)
 
