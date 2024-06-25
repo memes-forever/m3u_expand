@@ -1,0 +1,3 @@
+#EXTM3U
+#EXTINF:0 type="playlist",shaffle_family
+http://localhost:8000/shaffle?search=family
